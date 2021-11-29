@@ -13,7 +13,7 @@ const resolvers = {
         }
     },
     Mutation: {
-        // Login user using email and password value provided from client
+        // Login user using email and password values provided from client
         login: async (parent, { email, password }) => {
             // Look for document with matching email in User collection
             const user = await User.findOne({ email });
@@ -30,16 +30,18 @@ const resolvers = {
             if (!correctPw) {
                 throw new AuthenticationError('Incorrect credentials');
             }
-            
-            const token = signToken(user);
-
             // User session is authenticated, with expiration clock started
+            const token = signToken(user);
             return { token, user };
         },
-
-        // createUser: async () =>{
-        // // create a user, sign a token, and send it back (to client/src/components/SignUpForm.js)
-        // },
+        // Add a document to User collection
+        createUser: async (parent, { username, email, password }) => {
+        const user = await User.create({ username, email, password });
+        
+        // User session for newly create User is created, with expiration clock started
+        const token = signToken(user);
+        return { token, user };
+        },
 
         // saveBook: async () =>{
         // // save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
