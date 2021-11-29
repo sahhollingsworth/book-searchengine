@@ -1,7 +1,12 @@
 const { gql } = require('apollo-server-express');
 
-// Define:
-// mutation
+// WIP need to add:
+// type Mutation {
+    // login
+    // createUser
+    // saveBook
+    // removeBook
+// }
 
 const typeDefs = gql`
     type User {
