@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
@@ -10,7 +11,7 @@ const httpLink = createHttpLink({
   uri: '/graphql',
 });
 
-// Middleware will attach the JWT token to every request as an `authorization` header
+// Middleware will attach the JWT token to every request as an `authorization` header. setContext method retrieves any existing token from local storage and attaches the JWT token to every request sent from the client. 
 const authLink = setContext((_, { headers }) => {
   // Retrieve authentication token from local storage if it exists
   const token = localStorage.getItem('id_token');
