@@ -5,6 +5,12 @@ import Auth from '../utils/auth';
 import { saveBook, searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
+// // Import the useMutation hook from apollo/client to return our data:
+// import { useMutation } from '@apollo/client';
+// // Import the query into the component where we want our data to be displayed:
+// // Import the GraphQL mutation
+// import { SAVE_BOOK } from '../utils/mutations';
+
 const SearchBooks = () => {
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
