@@ -59,10 +59,21 @@ const resolvers = {
             }
             throw new AuthenticationError('Cannot find a user matching this id.');
         },
-
-        // removeBook: async (parent, ) => {
-        // // remove a book from `savedBooks`
-        // }
+        
+        // Remove a book from a user's `savedBooks`
+        removeBook: async (parent, { bookId }, context ) => {
+            if (context.user) {
+                const updateUserBooks = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    // Remove the book from the savedBooks array by using the key of bookId
+                    { $pull: { savedBooks: { bookId: bookId } } },
+                    // return the modified User document reflects removal of the book from the savedBooks array
+                    { new: true }
+                );
+                return updateUserBooks;
+            }
+            throw new AuthenticationError('Cannot find a user matching this id.');
+        }
     }
 };
 
