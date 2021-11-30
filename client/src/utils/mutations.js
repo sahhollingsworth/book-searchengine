@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 // reference API.js & coponents - what does the client need to render correctly once the api request has successfully updated the db as needed
 
 export const LOGIN_USER = gql`
-mutation login(email: String!, password: String!) {
+mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
         token
         user {
@@ -16,7 +16,7 @@ mutation login(email: String!, password: String!) {
 `;
 
 export const CREATE_USER = gql`
-mutation createUser(username: String!, email: String!, password: String!) {
+mutation createUser($username: String!, $email: String!, $password: String!) {
     createUser(username: $username, email: $email, password: $password) {
         token
         user {
@@ -28,7 +28,7 @@ mutation createUser(username: String!, email: String!, password: String!) {
 `;
 
 export const SAVE_BOOK = gql`
-mutation saveBook(bookData: BookInput!) {
+mutation saveBook($bookData: BookInput!) {
     saveBook(bookData: $bookData) {
         _id
         username
@@ -45,7 +45,7 @@ mutation saveBook(bookData: BookInput!) {
 `;
 
 export const REMOVE_BOOK = gql`
-mutation removeBook(bookId: String!) {
+mutation removeBook($bookId: String!) {
     removeBook(bookId: $bookId) {
         _id
         username
