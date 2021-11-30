@@ -78,7 +78,7 @@ const SearchBooks = () => {
     // Since mutation function is async, wrap in a `try...catch` to catch any network errors from throwing due to a failed request.
     try {
       // Execute mutation and pass in form input data as variables
-      const { data } = await saveBook({ variables: { ...userFormData } });
+      const { data } = await saveBook({ variables: { bookToSave } });
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
