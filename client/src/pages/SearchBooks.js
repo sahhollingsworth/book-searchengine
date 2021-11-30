@@ -75,8 +75,10 @@ const SearchBooks = () => {
       return false;
     }
 
+    // Since mutation function is async, wrap in a `try...catch` to catch any network errors from throwing due to a failed request.
     try {
-      await saveBook({ variables: { ...userFormData } });
+      // Execute mutation and pass in form input data as variables
+      const { data } = await saveBook({ variables: { ...userFormData } });
 
       if (!response.ok) {
         throw new Error('something went wrong!');

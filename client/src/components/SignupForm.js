@@ -35,8 +35,9 @@ const SignupForm = () => {
       event.stopPropagation();
     }
 
+    // Since mutation function is async, wrap in a `try...catch` to catch any network errors from throwing due to a failed request.
     try {
-      // use the createUser const to leverage mutation logic for new user document creation
+      // Execute mutation and pass in form input data as variables
       const { data } = await createUser({ variables: { ...userFormData } });
 
       if (!response.ok) {

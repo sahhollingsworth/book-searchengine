@@ -38,8 +38,9 @@ const LoginForm = () => {
       event.stopPropagation();
     }
 
+    // Since mutation function is async, wrap in a `try...catch` to catch any network errors from throwing due to a failed request.
     try {
-      // use the login const to leverage mutation logic for login & token creation/storage
+      // Execute mutation and pass in form input data as variables
       const { data } =  await login({ variables: { ...userFormData } });
 
       if (!response.ok) {
