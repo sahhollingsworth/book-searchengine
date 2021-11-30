@@ -12,7 +12,7 @@ const SignupForm = () => {
   // set initial form state
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
 
-  // pass the graphql mutation CREATE_USER constant using the useMutation React hook, which creates a new document in the user collection (+token)
+  // Perform CREATE_USER api request and return output. Otherwise, return error
   const [createUser, { error }] = useMutation(CREATE_USER);
 
   // set state for form validation

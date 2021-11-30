@@ -14,7 +14,7 @@ const LoginForm = () => {
   // set initial form state
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
 
-  // pass the graphql mutation LOGIN_USER constant using the useMutation React hook 
+  // Perform LOGIN_USER api request and return output. Otherwise, return error
   const [login, { error }] = useMutation(LOGIN_USER);
 
   // set state for form validation
