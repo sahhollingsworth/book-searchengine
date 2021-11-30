@@ -8,40 +8,18 @@ import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 // Import the query into the component where we want our data to be displayed:
 import { GET_ME } from '../utils/queries';
-// Import the GraphQL mutation
+// Import the GraphQL mutation. Only saved books can be removed from the SavedBooks (list)
 import { REMOVE_BOOK } from '../utils/mutations';
 
 
 const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
+  // Locate user data (including token) for use. If no user data, return loading const, which when evaluated to true will render user-facing message. Loading is the default.
+  const { loading, data } = useQuery(GET_ME);
 
-  // use this to determine if `useEffect()` hook needs to run again
-  const userDataLength = Object.keys(userData).length;
+  // if there is user data (user logged in, includes token if present) pass it through, otherwise set userdata as empty object
+  const userData = data?.me || {};
 
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-        if (!token) {
-          return false;
-        }
-
-        const response = await getMe(token);
-
-        if (!response.ok) {
-          throw new Error('something went wrong!');
-        }
-
-        const user = await response.json();
-        setUserData(user);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    getUserData();
-  }, [userDataLength]);
+  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -51,15 +29,15 @@ const SavedBooks = () => {
       return false;
     }
 
+    // Since mutation function is async, wrap in a `try...catch` to catch any network errors from throwing due to a failed request.
     try {
-      const response = await deleteBook(bookId, token);
+      // Execute mutation, passing in the bookid for deletion as variables
+      const { data } = await removeBook({ variables: { bookId } });
 
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
 
-      const updatedUser = await response.json();
-      setUserData(updatedUser);
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
@@ -67,8 +45,8 @@ const SavedBooks = () => {
     }
   };
 
-  // if data isn't here yet, say so
-  if (!userDataLength) {
+  // if data isn't here yet, render message to user
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 
@@ -88,13 +66,13 @@ const SavedBooks = () => {
         <CardColumns>
           {userData.savedBooks.map((book) => {
             return (
-              <Card key={book.bookId} border='dark'>
-                {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
+              <Card key={ book.bookId } border='dark'>
+                {book.image ? <Card.Img src={ book.image } alt={`The cover for ${book.title}`} variant='top' /> : null}
                 <Card.Body>
-                  <Card.Title>{book.title}</Card.Title>
-                  <p className='small'>Authors: {book.authors}</p>
-                  <Card.Text>{book.description}</Card.Text>
-                  <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
+                  <Card.Title>{ book.title }</Card.Title>
+                  <p className='small'>Authors: { book.authors }</p>
+                  <Card.Text>{ book.description }</Card.Text>
+                  <Button className='btn-block btn-danger' onClick={ () => handleDeleteBook(book.bookId) }>
                     Delete this Book!
                   </Button>
                 </Card.Body>
