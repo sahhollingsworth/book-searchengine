@@ -40,8 +40,11 @@ const LoginForm = () => {
 
     try {
       // use the login const to leverage mutation logic for login & token creation/storage
-      const response = await login({ variables: { ...userFormData } });
+      const { data } =  await login({ variables: { ...userFormData } });
 
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
       // use auth.js login util to save token to local storage
       Auth.login(data.login.token);
 
