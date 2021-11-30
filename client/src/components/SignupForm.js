@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
-import { createUser } from '../utils/API';
+// Import the useMutation hook from apollo/client to return our data:
+import { useMutation } from '@apollo/client';
+// Import the relevant GraphQL mutation
+import { CREATE_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 const SignupForm = () => {
   // set initial form state
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
+
+  // pass the graphql mutation CREATE_USER constant using the useMutation React hook, which creates a new document in the user collection (+token)
+  const [createUser, { error }] = useMutation(CREATE_USER);
+
   // set state for form validation
   const [validated] = useState(false);
   // set state for alert
@@ -28,20 +35,18 @@ const SignupForm = () => {
     }
 
     try {
-      const response = await createUser(userFormData);
+      // use the createUser const to leverage mutation logic for new user document creation
+      const { data } = await createUser({ variables: { ...userFormData } });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      // use auth.js login util to save session token to local storage
+      Auth.login(data.login.token);
 
-      const { token, user } = await response.json();
-      console.log(user);
-      Auth.login(token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
     }
 
+    // Reset form values to empty strings
     setUserFormData({
       username: '',
       email: '',
@@ -52,9 +57,9 @@ const SignupForm = () => {
   return (
     <>
       {/* This is needed for the validation functionality above */}
-      <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
+      <Form noValidate validated={ validated } onSubmit={ handleFormSubmit }>
         {/* show alert if server response is bad */}
-        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
+        <Alert dismissible onClose={ () => setShowAlert(false) } show={ showAlert } variant='danger'>
           Something went wrong with your signup!
         </Alert>
 
@@ -64,8 +69,8 @@ const SignupForm = () => {
             type='text'
             placeholder='Your username'
             name='username'
-            onChange={handleInputChange}
-            value={userFormData.username}
+            onChange={ handleInputChange }
+            value={ userFormData.username }
             required
           />
           <Form.Control.Feedback type='invalid'>Username is required!</Form.Control.Feedback>
@@ -77,8 +82,8 @@ const SignupForm = () => {
             type='email'
             placeholder='Your email address'
             name='email'
-            onChange={handleInputChange}
-            value={userFormData.email}
+            onChange={ handleInputChange }
+            value={ userFormData.email }
             required
           />
           <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
@@ -90,14 +95,14 @@ const SignupForm = () => {
             type='password'
             placeholder='Your password'
             name='password'
-            onChange={handleInputChange}
-            value={userFormData.password}
+            onChange={ handleInputChange }
+            value={ userFormData.password }
             required
           />
           <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
         <Button
-          disabled={!(userFormData.username && userFormData.email && userFormData.password)}
+          disabled={ !(userFormData.username && userFormData.email && userFormData.password) }
           type='submit'
           variant='success'>
           Submit
