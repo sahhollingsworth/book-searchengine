@@ -6,7 +6,7 @@ Originally a RESTful API, this project focused on refactoring the application to
 ## Summary
 [Click here to use the Book Search Engine.](https://book-search-engine-211115.herokuapp.com/)
 
-![Image of app interface](./whateverfilepath.png)
+![Image of app interface displaying main book search bar and book results for the search term of Four](./images/book-search-engine_screenshot.png)
 
 * Core functionality is a simple Search (for Books) with an input field to search for books that fetches data from the Google Books API.
 * Unauthenticated users:
