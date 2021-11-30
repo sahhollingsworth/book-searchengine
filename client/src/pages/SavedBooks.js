@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
+// Import the useQuery & useMutation hooks from apollo/client to return our data:
+import { useQuery, useMutation } from '@apollo/client';
 
-import { getMe, deleteBook } from '../utils/API';
+
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
+// Import the query into the component where we want our data to be displayed:
+import { GET_ME } from '../utils/queries';
+// Import the GraphQL mutation
+import { REMOVE_BOOK } from '../utils/mutations';
 
-// // Import the useQuery & useMutation hooks from apollo/client to return our data:
-// import { useQuery, useMutation } from '@apollo/client';
-// // Import the query into the component where we want our data to be displayed:
-// import { GET_ME } from '../utils/queries';
-// // Import the GraphQL mutation
-// import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
   const [userData, setUserData] = useState({});

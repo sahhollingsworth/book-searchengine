@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
 // Import the useMutation hook from apollo/client to return our data:
 import { useMutation } from '@apollo/client';
+
+import Auth from '../utils/auth';
 // Import the relevant GraphQL mutation
 import { CREATE_USER } from '../utils/mutations';
-import Auth from '../utils/auth';
+
 
 const SignupForm = () => {
   // set initial form state

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
+// Import useQuery and useMutation hooks from apollo/client to return our data:
+import { useQuery, useMutation } from '@apollo/client';
 
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import { searchGoogleBooks } from '../utils/API';
+// Import the GraphQL mutation
+import { SAVE_BOOK } from '../utils/mutations';
 
-// // Import the useMutation hook from apollo/client to return our data:
-// import { useMutation } from '@apollo/client';
-// // Import the query into the component where we want our data to be displayed:
-// // Import the GraphQL mutation
-// import { SAVE_BOOK } from '../utils/mutations';
 
 const SearchBooks = () => {
   // create state for holding returned google api data
