@@ -43,9 +43,6 @@ const LoginForm = () => {
       // Execute mutation and pass in form input data as variables
       const { data } =  await login({ variables: { ...userFormData } });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
       // use auth.js login util to save token to local storage
       Auth.login(data.login.token);
 

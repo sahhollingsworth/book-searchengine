@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 // Import the useQuery & useMutation hooks from apollo/client to return our data:
 import { useQuery, useMutation } from '@apollo/client';
@@ -33,10 +33,6 @@ const SavedBooks = () => {
     try {
       // Execute mutation, passing in the bookid for deletion as variables
       const { data } = await removeBook({ variables: { bookId } });
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
 
       // upon success, remove book's id from localStorage
       removeBookId(bookId);

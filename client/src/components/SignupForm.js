@@ -40,9 +40,6 @@ const SignupForm = () => {
       // Execute mutation and pass in form input data as variables
       const { data } = await createUser({ variables: { ...userFormData } });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
       // use auth.js login util to save session token to local storage
       Auth.login(data.login.token);
 

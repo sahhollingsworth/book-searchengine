@@ -80,9 +80,6 @@ const SearchBooks = () => {
       // Execute mutation and pass in form input data as variables
       const { data } = await saveBook({ variables: { ...userFormData } });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
