@@ -11,10 +11,17 @@ import { LOGIN_USER } from '../utils/mutations';
 
 
 const LoginForm = () => {
+
+  // set initial form state
+  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+
   // pass the graphql mutation LOGIN_USER constant using the useMutation React hook 
   const [login, { error }] = useMutation(LOGIN_USER);
-  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+
+  // set state for form validation
   const [validated] = useState(false);
+
+  // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
   const handleInputChange = (event) => {
