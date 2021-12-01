@@ -62,6 +62,8 @@ Sarah Hollingsworth
 
 ## References
 * [GraphQL `input` typeDef Documentation](https://graphql.org/graphql-js/mutations-and-input-types/)
+* [Apollo Server Express documentation](https://www.apollographql.com/docs/apollo-server/integrations/middleware/#example) on breaking changes introduced with Apollo Server Express v3+
+* [Apollo Server Migration docs for v3+](https://www.apollographql.com/docs/apollo-server/migration/)
 
 ## License
 * Licensed under the [MIT](https://opensource.org/licenses/MIT) license.
