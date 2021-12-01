@@ -10,16 +10,20 @@ const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
 const db = require('./config/connection');
 
-const app = express();
-const PORT = process.env.PORT || 3001;
-
-// Allows the incoming requests to be verified and the data returned from the authMiddleware() function to be made available to resolvers
+// Allows the incoming requests to be verified and the data returned from the authMiddleware() function to be made available to resolvers   HERE
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   // So data from the `authMiddleware()` function can pass data to resolver functions
   context: authMiddleware,
 });
+
+// Apollo (version 3+) will throw an error if this isn't included 
+await apolloServer.start();
+
+
+const app = express();
+const PORT = process.env.PORT || 3001;
 
 // call the .appleMiddleware() method to integrate Express.js with the Apollo Server and connect the schema. Enables app to use GraphQL
 server.applyMiddleware({ app });
@@ -36,6 +40,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
+// HERE
 db.once('open', () => {
   app.listen(PORT, () => {
   console.log(`🌍 Now listening on localhost:${PORT}`);
