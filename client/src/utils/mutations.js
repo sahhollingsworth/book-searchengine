@@ -10,6 +10,8 @@ mutation login($email: String!, $password: String!) {
         user {
             _id
             username
+            email
+            password
         }
     }
 }
@@ -22,6 +24,8 @@ mutation createUser($username: String!, $email: String!, $password: String!) {
         user {
             _id
             username
+            email
+            password
         }
     }
 }
