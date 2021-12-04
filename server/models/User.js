@@ -24,7 +24,7 @@ const userSchema = new Schema(
     // set savedBooks to be an array of data that adheres to the bookSchema
     savedBooks: [bookSchema],
   },
-  // set this to use virtual below
+  // By default, Mongoose does not include virtuals when you convert a document to JSON.
   {
     toJSON: {
       virtuals: true,
@@ -47,7 +47,7 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-// when we query a user, we'll also get another field called `bookCount` with the number of saved books we have
+// created a virtual property `bookCount` computed from the # of savedBooks. Get methods are used doing processing of another document field and return a value
 userSchema.virtual('bookCount').get(function () {
   return this.savedBooks.length;
 });
