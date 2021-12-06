@@ -5,7 +5,6 @@ const typeDefs = gql`
         _id: ID!
         username: String
         email: String
-        password: String
         savedBooks: [Book]
         bookCount: Int
     }
@@ -30,7 +29,7 @@ const typeDefs = gql`
 
     type Auth {
         token: ID!
-        User: User
+        user: User
     }
 
     type Query {
