@@ -15,7 +15,7 @@ const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
 
   // Perform LOGIN_USER api request and return output. Otherwise, return error
-  const [login, { error }] = useMutation(LOGIN_USER);
+  const [login] = useMutation(LOGIN_USER);
 
   // set state for form validation
   const [validated] = useState(false);
@@ -41,7 +41,9 @@ const LoginForm = () => {
     // Since mutation function is async, wrap in a `try...catch` to catch any network errors from throwing due to a failed request.
     try {
       // Execute mutation and pass in form input data as variables
-      const { data } =  await login({ variables: { ...userFormData } });
+      const { data } =  await login({ 
+        variables: { ...userFormData } 
+      });
 
       // use auth.js login util to save token to local storage
       Auth.login(data.login.token);
