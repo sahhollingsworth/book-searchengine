@@ -21,7 +21,7 @@ const SearchBooks = () => {
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
   // Perform saveBook api request and return output. Otherwise, return error
-  const [saveBook, { error }] = useMutation(SAVE_BOOK);
+  const [saveBook] = useMutation(SAVE_BOOK);
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -78,7 +78,10 @@ const SearchBooks = () => {
     // Since mutation function is async, wrap in a `try...catch` to catch any network errors from throwing due to a failed request.
     try {
       // Execute mutation and pass in form input data as variables
-      const { data } = await saveBook({ variables: { bookToSave } });
+      const { data } = await saveBook({ 
+        variables: { bookData: {...bookToSave} } 
+      });
+      console.log(data);
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
