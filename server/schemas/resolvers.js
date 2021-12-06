@@ -7,7 +7,7 @@ const resolvers = {
         // Load saved books for a given user by id
         me: async (parent, args, context) => {
             if (context.user) {
-                return User.findOne({ _id: context.user._id }).populate('SavedBooks');
+                return User.findOne({ _id: context.user._id });
             }
             throw new AuthenticationError('Please log in to see your saved books.');
         }

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
+
 // Import the useMutation hook from apollo/client to return our data:
 import { useMutation } from '@apollo/client';
-
 import Auth from '../utils/auth';
 // Import the relevant GraphQL mutation
 import { CREATE_USER } from '../utils/mutations';
@@ -12,8 +12,8 @@ const SignupForm = () => {
   // set initial form state
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
 
-  // Perform CREATE_USER api request and return output. Otherwise, return error
-  const [createUser, { error }] = useMutation(CREATE_USER);
+  // Perform CREATE_USER api request and return output
+  const [createUser] = useMutation(CREATE_USER);
 
   // set state for form validation
   const [validated] = useState(false);
@@ -38,10 +38,12 @@ const SignupForm = () => {
     // Since mutation function is async, wrap in a `try...catch` to catch any network errors from throwing due to a failed request.
     try {
       // Execute mutation and pass in form input data as variables
-      const { data } = await createUser({ variables: { ...userFormData } });
+      const { data } = await createUser({ 
+        variables: { ...userFormData }, 
+      });
 
       // use auth.js login util to save session token to local storage
-      Auth.login(data.login.token);
+      Auth.login(data.createUser.token);
 
     } catch (err) {
       console.error(err);
